@@ -1,7 +1,7 @@
 name: ✨Feature Request
 description: Request a new feature or enhancement
 labels: ["enhancement"]
-assignees: "codeacme17"
+assignees: "bupter"
 title: "[FEAT]: "
 body:
   - type: markdown

@@ -12,18 +12,18 @@
     <section v-else> <!-- 如果问题信息不为空，显示问题和答案区块 -->
       <!-- 问题区块 -->
       <question-block
-        v-bind="questionInfo" <!-- 动态绑定问题信息 -->
-        :type="'random'" <!-- 类型为随机问题 -->
-        :loading="getRQLoading" <!-- 加载状态 -->
-        @refresh="hanleClickRefresh" <!-- 刷新事件处理函数 -->
+        v-bind="questionInfo" 
+        :type="'random'" 
+        :loading="getRQLoading" 
+        @refresh="hanleClickRefresh" 
       />
 
       <!-- 答案区块 -->
       <examine-block
-        v-if="trigger" <!-- 如果触发条件满足，则显示答案区块 -->
-        :id="questionInfo.id" <!-- 问题ID -->
-        :questionType="questionInfo.question_type" <!-- 问题类型 -->
-        :questionContent="questionInfo.content" <!-- 问题内容 -->
+        v-if="trigger" 
+        :id="questionInfo.id" 
+        :questionType="questionInfo.question_type" 
+        :questionContent="questionInfo.content" 
       />
     </section>
   </v-container>

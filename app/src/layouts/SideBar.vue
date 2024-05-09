@@ -21,7 +21,7 @@
           <!-- 根据主题显示不同的Logo -->
           <v-img
             v-show="isDark"
-            src="/src/assets/images/logo-dark.svg"
+            src="/src/assets/images/1.svg"
             lazy-src="/src/assets/images/logo-dark.svg"
             alt="logo-dark"
             width="100%"
@@ -29,7 +29,7 @@
 
           <v-img
             v-show="!isDark"
-            src="/src/assets/images/logo.svg"
+            src="/src/assets/images/1.svg"
             lazy-src="/src/assets/images/logo.svg"
             alt="logo-light"
             width="100%"
@@ -40,14 +40,14 @@
       <template #title>
         <!-- 根据侧边栏状态显示不同的标题 -->
         <Transition :name="rail ? '' : 'footer'" mode="out-in">
-          <h3 v-show="!rail">examor</h3>
+          <h3 v-show="!rail">北邮人笔记</h3>
         </Transition>
       </template>
 
       <template #subtitle>
         <!-- 根据侧边栏状态显示不同的副标题 -->
         <Transition :name="rail ? '' : 'footer'" mode="out-in">
-          <p style="font-size: 12px" v-show="!rail">{{ $t('slogan') }}</p>
+          <p style="font-size: 12px" v-show="!rail">{{ $t('BUPT noter') }}</p>
         </Transition>
       </template>
     </v-list-item>
@@ -94,42 +94,6 @@
       />
     </v-list>
 
-    <!-- 附加部分 -->
-    <template v-slot:append>
-      <v-divider></v-divider>
-
-      <section class="pa-2 d-flex align-center position-relative">
-        <!-- Github 按钮 -->
-        <v-btn
-          class="ext-medium-emphasis mr-1"
-          style="font-size: 15px; transition: all 0.2s ease-in-out"
-          icon="mdi-github"
-          size="small"
-          elevation="0"
-          variant="text"
-          :class="rail ? '' : 'ml-6'"
-          @click="handleClickGithub"
-        />
-
-        <!-- 版权信息 -->
-        <Transition :name="rail ? '' : 'footer'" mode="out-in">
-          <div
-            v-if="!rail"
-            class="text-medium-emphasis mt-1"
-            style="
-              height: 20px;
-              overflow: hidden;
-              font-size: 13px;
-              position: absolute;
-              right: 60px;
-              user-select: none;
-            "
-          >
-            © 2023 <strong>leyoonafr</strong>
-          </div>
-        </Transition>
-      </section>
-    </template>
   </v-navigation-drawer>
 </template>
 

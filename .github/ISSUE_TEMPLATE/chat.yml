@@ -1,7 +1,7 @@
 name: 💬Chat
 description: Just chat
 labels: ['chat']
-assignees: 'codeacme17'
+assignees: 'bupter'
 title: '[CHAT]: '
 body:
   - type: textarea
