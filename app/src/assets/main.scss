@@ -1,0 +1,70 @@
+@use 'vuetify' with (
+  $color-pack: false
+);
+
+@import url('./markdown.scss');
+@import 'tdesign-vue-next/es/style/index.css';
+
+:root {
+  --td-brand-color: #000 !important;
+  --td-brand-color-hover: #000 !important;
+  --list-item-font-size: 12px;
+  --code-box-bg: #aacef3;
+  --cood-block-bg: #ededed;
+  --thumb-bg: #d8d8d8;
+  --gray-bg: #bfbfbf7a;
+}
+
+:root[theme-mode='dark'] {
+  --td-brand-color: #fff !important;
+  --td-brand-color-hover: #fff !important;
+  --code-box-bg: #0d47a1;
+  --cood-block-bg: #282828;
+  --thumb-bg: #424242;
+  --gray-bg: #60606084;
+}
+
+html {
+  font-family: 'Poppins', 'JetBrains Mono', '微软雅黑', '圆体-简' !important;
+}
+
+.main_width {
+  max-width: 900px !important;
+  margin: 0 auto !important;
+}
+
+.v-btn--disabled {
+  opacity: 0.5 !important;
+}
+
+#nprogess-bar {
+  background: linear-gradient(to right, red, yellow, blue) !important;
+}
+
+.footer-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.footer-enter-active {
+  transition: opacity 0.2s 0.1s ease;
+}
+
+.footer-enter-from,
+.footer-leave-to {
+  opacity: 0;
+}
+
+.t-upload__flow-bottom {
+  display: none !important;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 3px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  height: 3px;
+  background-color: var(--thumb-bg);
+}

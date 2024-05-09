@@ -1,0 +1,25 @@
+version: '3'
+services:
+  app:
+    build: ./app/  # 指定构建镜像的 Dockerfile 路径
+    command: ["sh", "-c", "sleep 15 && pnpm dev:docker"]  # 启动容器时执行的命令
+    restart: always  # 容器异常退出后的重启策略
+    depends_on:  # 依赖：表示 app 服务需要在 server 服务启动之后才启动
+      - server
+    ports:  # 映射容器端口到宿主机端口，这里将容器的 51818 端口映射到宿主机 51818 端口
+      - '51818:51818'
+
+  server:
+    build: ./server/
+    restart: always
+    depends_on:
+      - database
+    ports:
+      - '51717:51717'
+
+  database:
+    build: ./database/
+    restart: always
+    ports:
+      - '52020:3306'
+
