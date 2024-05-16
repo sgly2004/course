@@ -83,8 +83,8 @@
         variant="default-filled"
       >
         <t-radio-button value="OpenAI">OpenAI</t-radio-button>
-        <t-radio-button value="Azure">Azure</t-radio-button>
-        <t-radio-button value="Anthropic">Anthropic</t-radio-button>
+        <!-- <t-radio-button value="Azure">Azure</t-radio-button>
+        <t-radio-button value="Anthropic">Anthropic</t-radio-button> -->
       </t-radio-group>
 
       <!---------- Keys ---------->
