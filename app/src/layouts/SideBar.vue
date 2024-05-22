@@ -154,6 +154,6 @@ const defualtNavList = computed(() => [
 
 // 点击Github按钮处理函数
 const handleClickGithub = () => {
-  window.open('https://github.com/codeacme17/examor')
+  window.open('https://github.com/sgly2004/notebook.git')
 }
 </script>
