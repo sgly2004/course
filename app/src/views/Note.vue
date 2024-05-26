@@ -1,225 +1,130 @@
 <template>
   <v-container style="max-width: 1080px">
-    <!-- 主要内容 -->
-    <section v-if="NOTE_STORE.notes.length">
-      <h2>
-        {{ $t('title.notes') }}
-      </h2>
-      <h5 class="text-medium-emphasis">{{ $t('subTitle.notes') }}</h5>
+    <h2 class="mb-5 d-flex align-center">
+      <v-icon class="mr-3" :icon="currentNote.icon" />
+      <div>{{ currentNote.name }}</div>
+    </h2>
 
-      <v-divider class="mt-8"></v-divider>
-
-      <section class="d-flex flex-row pt-5">
-        <Transition name="v-fade-transition">
-          <!-- 如果不是正在更改笔记 -->
-          <v-card
-            v-if="!isChangeNote"
-            class="flex-1-1 px-3"
-            color="transparent"
-            :elevation="0"
-          >
-            <!-- 笔记名称和图标 -->
-            <note-header v-bind="currentNote" :index="currentIndex" />
-
-            <!-- 添加文件按钮 -->
-            <v-btn
-              variant="tonal"
-              class="mt-3 mb-3"
-              prepend-icon="mdi-text-box-plus-outline"
-              style="height: 36px"
-              :block="true"
-              @click="isShowUploadDialog = true"
-            >
-              {{ $t('button.addFile') }}
-            </v-btn>
-
-            <!-- 文件表格 -->
-            <v-card class="pt-1" color="transparent" :elevation="0">
-              <files-table :id="currentNote.id" />
-            </v-card>
-          </v-card>
-        </Transition>
-
-        <!-- 侧边栏：标签、笔记信息和删除笔记 -->
-        <section class="ml-5">
-          <!-- 标签 -->
-          <v-card
-            class="align-self-start"
-            width="240px"
-            :color="defaultBgColor"
-            :elevation="0"
-          >
-            <v-tabs direction="vertical">
-              <v-tab
-                v-for="(item, index) in NOTE_STORE.notes"
-                v-model="currentIndex"
-                class="text-body-1"
-                :value="index"
-                :key="item.id"
-                @click="handleClickTab(index)"
-              >
-                <v-icon start> {{ item.icon }} </v-icon>
-                {{ item.name }}
-              </v-tab>
-            </v-tabs>
-          </v-card>
-
-          <!-- 笔记信息 -->
-          <v-card
-            class="align-self-start mt-3"
-            :color="defaultBgColor"
-            :elevation="0"
-          >
-            <Transition name="fade-transition">
-              <v-list
-                v-if="!isChangeNote"
-                lines="two"
-                :bg-color="defaultBgColor"
-              >
-                <v-list-item
-                  :title="$t('title.createDate')"
-                  :subtitle="handleDatetime(currentNote.upload_date!)"
-                />
-                <!-- 不要删除
-                <v-list-item :title="$t('title.finishedAmount')" subtitle="10" />
-                <v-list-item :title="$t('title.totalAmount')" subtitle="200" /> -->
-              </v-list>
-            </Transition>
-          </v-card>
-
-          <!-- 删除按钮 -->
-          <v-btn
-            v-if="!isShowConfirmDeleteBtn"
-            block
-            class="mt-3"
-            id="delete_btn"
-            type="icon"
-            variant="tonal"
-            :color="orangeBgColor"
-            @click="isShowConfirmDeleteBtn = true"
-          >
-            <v-icon
-              icon="mdi-delete-empty"
-              style="font-size: 20px; margin-right: 8px"
-            />
-            {{ $t('button.deleteNote') }}
-          </v-btn>
-          <!-- 确认删除按钮 -->
-          <v-btn
-            v-show="isShowConfirmDeleteBtn"
-            block
-            class="mt-3"
-            id="delete_btn"
-            type="icon"
-            variant="tonal"
-            :color="greenBgColor"
-            :loading="deleteNodeLoading"
-            @click="handleDeleteNote"
-          >
-            <v-icon
-              icon="mdi-check-all"
-              style="font-size: 20px; margin-right: 8px"
-            />
-            {{ $t('button.confirmDelete') }}
-          </v-btn>
-        </section>
+    <Transition
+      :name="
+        isShowAnswer ? 'scroll-x-reverse-transition' : 'scroll-x-transition'
+      "
+      mode="out-in"
+    >
+      <!-- Question tables -->
+      <section v-if="!isShowAnswer">
+        <!-- Today -->
+        <QuestionTable
+          v-if="!!todayList.length"
+          class="mb-5"
+          type="today"
+          :loading="listLoading"
+          :quesitonList="todayList"
+          @questionPickEmit="handlePickQuestion"
+        />
+        <!-- Expired -->
+        <QuestionTable
+          v-if="!!expiredList.length"
+          class="mb-5"
+          type="expired"
+          :loading="listLoading"
+          :quesitonList="expiredList"
+          @questionPickEmit="handlePickQuestion"
+        />
+        <!-- Supplement -->
+        <QuestionTable
+          v-if="!!supplementList.length"
+          type="supplement"
+          :loading="listLoading"
+          :quesitonList="supplementList"
+          @questionPickEmit="handlePickQuestion"
+        />
       </section>
-    </section>
 
-    <!-- 空提示块 -->
-    <empty-block v-else type="note">
-      <h2 class="mb-2">{{ $t('title.emptyNote') }}</h2>
-      <h4 class="d-flex align-center">
-        {{ $t('subTitle.emptyNoteStart') }}
-        <v-btn
-          variant="text"
-          color="primary"
-          class=""
-          @click="$router.push('/addNote')"
-        >
-          {{ $t('menus.addNote') }}
-        </v-btn>
-        {{ $t('subTitle.emptyNoteEnd') }}
-      </h4>
+      <!-- Exmine section -->
+      <section v-else>
+        <!-- Question block -->
+        <question-block
+          v-bind="pickedQuestion"
+          :type="'common'"
+          @back="isShowAnswer = false"
+        />
+
+        <!-- Examine block -->
+        <examine-block
+          :id="pickedQuestion.id"
+          :questionContent="pickedQuestion.content"
+          :questionType="pickedQuestion.question_type"
+        />
+      </section>
+    </Transition>
+
+    <empty-block
+      v-if="!todayList.length && !expiredList.length && !supplementList.length"
+      type="question"
+    >
+      <h3 style="margin-top: -50px">
+        {{ $t('title.emptyQuestion') }}
+      </h3>
     </empty-block>
-
-    <!-- 上传文件对话框 -->
-    <upload-file-dialog
-      v-model="isShowUploadDialog"
-      :noteId="currentNote && currentNote.id"
-      :noteName="currentNote && currentNote.name"
-      @submitted="handleUploadSubmit"
-    />
   </v-container>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'Notes',
+  question: 'Note',
 }
 </script>
 
 <script setup lang="ts">
-import { ref, nextTick } from 'vue'
-import { useNoteStore } from '@/store'
+import { ref, reactive } from 'vue'
+import { useRoute } from 'vue-router'
+import { useFetch, useTodayListCache } from '@/hooks'
 import { NOTE_API } from '@/apis'
-import { useFetch } from '@/hooks'
-import {
-  defaultBgColor,
-  orangeBgColor,
-  greenBgColor,
-  handleDatetime,
-} from '@/utils'
+import type { TableItem } from '@/components/tables/QuestionTable.vue'
 
-const NOTE_STORE = useNoteStore()
-const isShowUploadDialog = ref(false)
+const route = useRoute()
 
-// 处理点击标签事件
-let currentNote = NOTE_STORE.notes[0]
-NOTE_STORE.currentIcon = currentNote ? currentNote.icon : ''
-const currentIndex = ref(0)
-const isChangeNote = ref(false)
-const handleClickTab = async (index: number) => {
-  if (index === currentIndex.value) return
-  currentIndex.value = index
-  switchNote()
+type Note = {
+  id: string
+  name: string
+  icon: string
 }
 
-// 处理删除笔记事件
-const isShowConfirmDeleteBtn = ref(false)
-const [deleteNote, deleteNodeLoading] = useFetch(
-  NOTE_API.deleteNote,
-  'delete successfully'
+const currentNote = reactive<Note>({
+  id: route.params.id as string,
+  name: '',
+  icon: 'mdi-text-box-outline',
+})
+const [getNote] = useFetch(NOTE_API.getNote)
+const noteRes = await getNote(currentNote.id)
+currentNote.name = noteRes.data.name
+currentNote.icon = noteRes.data.icon
+
+// Get question list
+const [listData, listLoading] = await useTodayListCache(
+  currentNote.id,
+  NOTE_API.getQuestions
 )
-const handleDeleteNote = async () => {
-  const { code } = await deleteNote(currentNote.id)
-  if (code !== 0) return
-  await NOTE_STORE.getNotes()
-  const length = NOTE_STORE.notes.length
+const todayList = ref<TableItem[]>(listData.value.today)
+const expiredList = ref<TableItem[]>(listData.value.expired)
+const supplementList = ref<TableItem[]>(listData.value.supplement)
 
-  if (!length) return
-  if (currentIndex.value === length) currentIndex.value = length - 1
-
-  switchNote()
-}
-
-// 处理切换笔记标签事件
-const switchNote = () => {
-  isShowConfirmDeleteBtn.value = false
-  isChangeNote.value = true
-  currentNote = NOTE_STORE.notes[currentIndex.value]
-  NOTE_STORE.currentIcon = currentNote ? currentNote.icon : ''
-  nextTick(() => {
-    isChangeNote.value = false
-  })
-}
-
-// 处理提交上传文件事件
-const handleUploadSubmit = () => {
-  isShowUploadDialog.value = false
-  isChangeNote.value = true
-  nextTick(() => {
-    isChangeNote.value = false
-  })
+// Handle question
+const pickedQuestion = reactive<TableItem>({
+  id: 0,
+  content: '',
+  designated_role: '',
+  progress: 0,
+  question_type: '',
+})
+const isShowAnswer = ref(false)
+const handlePickQuestion = (item: TableItem) => {
+  isShowAnswer.value = true
+  pickedQuestion.id = item.id
+  pickedQuestion.content = item.content
+  pickedQuestion.designated_role = item.designated_role
+  pickedQuestion.progress = item.progress
+  pickedQuestion.question_type = item.question_type
 }
 </script>

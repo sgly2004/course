@@ -1,6 +1,6 @@
 <template>
   <v-container style="max-width: 1080px">
-    <!-- Main content -->
+    <!-- 主要内容 -->
     <section v-if="NOTE_STORE.notes.length">
       <h2>
         {{ $t('title.notes') }}
@@ -11,15 +11,17 @@
 
       <section class="d-flex flex-row pt-5">
         <Transition name="v-fade-transition">
+          <!-- 如果不是正在更改笔记 -->
           <v-card
             v-if="!isChangeNote"
             class="flex-1-1 px-3"
             color="transparent"
             :elevation="0"
           >
-            <!-- note name & icon -->
+            <!-- 笔记名称和图标 -->
             <note-header v-bind="currentNote" :index="currentIndex" />
 
+            <!-- 添加文件按钮 -->
             <v-btn
               variant="tonal"
               class="mt-3 mb-3"
@@ -31,16 +33,16 @@
               {{ $t('button.addFile') }}
             </v-btn>
 
-            <!-- Files Table -->
+            <!-- 文件表格 -->
             <v-card class="pt-1" color="transparent" :elevation="0">
               <files-table :id="currentNote.id" />
             </v-card>
           </v-card>
         </Transition>
 
-        <!-- Side bar: Tabs & Note Info & Delete Note -->
+        <!-- 侧边栏：标签、笔记信息和删除笔记 -->
         <section class="ml-5">
-          <!-- Tabs -->
+          <!-- 标签 -->
           <v-card
             class="align-self-start"
             width="240px"
@@ -62,7 +64,7 @@
             </v-tabs>
           </v-card>
 
-          <!-- Note Info -->
+          <!-- 笔记信息 -->
           <v-card
             class="align-self-start mt-3"
             :color="defaultBgColor"
@@ -78,14 +80,14 @@
                   :title="$t('title.createDate')"
                   :subtitle="handleDatetime(currentNote.upload_date!)"
                 />
-                <!-- Dont delete
+                <!-- 不要删除
                 <v-list-item :title="$t('title.finishedAmount')" subtitle="10" />
                 <v-list-item :title="$t('title.totalAmount')" subtitle="200" /> -->
               </v-list>
             </Transition>
           </v-card>
 
-          <!-- Delete Button -->
+          <!-- 删除按钮 -->
           <v-btn
             v-if="!isShowConfirmDeleteBtn"
             block
@@ -102,7 +104,7 @@
             />
             {{ $t('button.deleteNote') }}
           </v-btn>
-          <!-- Confirm Delete Button -->
+          <!-- 确认删除按钮 -->
           <v-btn
             v-show="isShowConfirmDeleteBtn"
             block
@@ -124,7 +126,7 @@
       </section>
     </section>
 
-    <!-- Empty Notice Block -->
+    <!-- 空提示块 -->
     <empty-block v-else type="note">
       <h2 class="mb-2">{{ $t('title.emptyNote') }}</h2>
       <h4 class="d-flex align-center">
@@ -141,7 +143,7 @@
       </h4>
     </empty-block>
 
-    <!-- Upload file dialog -->
+    <!-- 上传文件对话框 -->
     <upload-file-dialog
       v-model="isShowUploadDialog"
       :noteId="currentNote && currentNote.id"
@@ -172,7 +174,7 @@ import {
 const NOTE_STORE = useNoteStore()
 const isShowUploadDialog = ref(false)
 
-// Handle click tab event
+// 处理点击标签事件
 let currentNote = NOTE_STORE.notes[0]
 NOTE_STORE.currentIcon = currentNote ? currentNote.icon : ''
 const currentIndex = ref(0)
@@ -183,7 +185,7 @@ const handleClickTab = async (index: number) => {
   switchNote()
 }
 
-// Handle delete note event
+// 处理删除笔记事件
 const isShowConfirmDeleteBtn = ref(false)
 const [deleteNote, deleteNodeLoading] = useFetch(
   NOTE_API.deleteNote,
@@ -201,7 +203,7 @@ const handleDeleteNote = async () => {
   switchNote()
 }
 
-// Handle switch note tab event
+// 处理切换笔记标签事件
 const switchNote = () => {
   isShowConfirmDeleteBtn.value = false
   isChangeNote.value = true
@@ -212,7 +214,7 @@ const switchNote = () => {
   })
 }
 
-// Handle submitted upload files event
+// 处理提交上传文件事件
 const handleUploadSubmit = () => {
   isShowUploadDialog.value = false
   isChangeNote.value = true

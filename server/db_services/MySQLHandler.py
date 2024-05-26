@@ -13,7 +13,7 @@ class MySQLHandler:
             'password': '',
             'host': 'database' if os.environ.get('DOCKER') else 'localhost',
             'port': '3306' if os.environ.get('DOCKER') else '3306',
-            'database': 'db',
+            'database': 'sb',
             'raise_on_warnings': True,
         }
         self.conn = None
