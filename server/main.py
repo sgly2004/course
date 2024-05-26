@@ -164,25 +164,3 @@ def get_document(id: int):
 @app.get("/question/random")
 def get_random_question():
     return _apis_.question.get_random_question()
-
-# -------- Question Bank APIs --------
-
-# 获取问题库的分类
-@app.get("/bank/{language}/categories")
-def get_categories(language: str):
-    return _apis_.bank.get_categories(language)
-
-# 根据语言和分类获取问题库
-@app.get("/bank/{language}/{category}")
-def get_banks(language: str, category: str):
-    return _apis_.bank.get_banks(language, category)
-
-# 将问题库导入到笔记中
-@app.post("/bank/import")
-def import_bank_to_note(data: types.ImportBankData):
-    return _apis_.bank.import_bank_to_note(data)
-
-# 运行应用
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=51717)

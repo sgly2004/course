@@ -10,14 +10,15 @@ class MySQLHandler:
     def __init__(self):
         self.config = {
             'user': 'root',
-            'password': 'root',
+            'password': '',
             'host': 'database' if os.environ.get('DOCKER') else 'localhost',
-            'port': '3306' if os.environ.get('DOCKER') else '52020',
+            'port': '3306' if os.environ.get('DOCKER') else '3306',
             'database': 'db',
             'raise_on_warnings': True,
         }
         self.conn = None
-        self.cursor = None
+        self.cursor = mysql.connector.connect(**self.config)
+        self.connect_to_mysql()
 
     def connect_to_mysql(self):
         try:

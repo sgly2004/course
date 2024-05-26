@@ -16,12 +16,13 @@ async def upload_file(
     files: list[UploadFile],
 ):
     """
-    Uploads multiple files and generates questions based on their content.
+    上传多个文件并根据其内容生成问题。
 
-    :param language: The language for generating questions.
-    :param noteId: The ID of the note to associate with the files.
-    :param noteName: The name of the note.
-    :param files: A list of UploadFile objects representing the files to upload.
+    :param language: 生成问题的语言。
+    :param questionType: 问题类型。
+    :param noteId: 与文件关联的笔记ID。
+    :param noteName: 笔记名称。
+    :param files: 要上传的文件的 UploadFile 对象列表。
     :return: None
     """
     collection = []
@@ -39,15 +40,15 @@ async def upload_file(
         file_id = item["id"]
         file_content = item["content"]
 
-        # save file to the temp dir
+        # 将文件保存到临时目录
         not os.path.isdir(f"./temp") and os.mkdir("./temp")
         with open(f"./temp/{filename}", "w+", encoding="utf-8") as f:
             f.write(file_content.decode('utf-8'))
         docs = split_doc(filename)
-        # remove temp file
+        # 移除临时文件
         os.remove(f"./temp/{filename}")
 
-        # Create a LangChain service instance
+        # 创建 LangChain 服务实例
         langchain_service = _llms_.Chain(
             note_id=noteId,
             file_id=file_id,
@@ -57,20 +58,20 @@ async def upload_file(
         )
 
         try:
-            # Generate questions using LangChain service
+            # 使用 LangChain 服务生成问题
             question_count = await langchain_service.agenerate_questions(
                 docs,
                 noteName,
                 questionType,
             )
-            # Handle the case where no questions were generated
+            # 处理未生成问题的情况
             if question_count == 0:
                 _dbs_.file.delete_file(file_id)
                 raise ("error")
         except Exception as e:
             error_files.append((filename))
         finally:
-            # Set the file's uploading state
+            # 设置文件的上传状态
             _dbs_.file.set_file_is_uploading_state(file_id, question_count)
 
     if error_files:

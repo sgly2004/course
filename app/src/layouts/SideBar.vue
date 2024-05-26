@@ -144,12 +144,12 @@ const defualtNavList = computed(() => [
     value: '/random',
     isDisplay: true,
   },
-  {
-    icon: 'mdi-folder-question',
-    title: t('menus.questionBank'),
-    value: '/question-bank',
-    isDisplay: true,
-  },
+  // {
+  //   icon: 'mdi-folder-question',
+  //   title: t('menus.questionBank'),
+  //   value: '/question-bank',
+  //   isDisplay: true,
+  // },
 ])
 
 // 点击Github按钮处理函数

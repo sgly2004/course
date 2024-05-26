@@ -30,11 +30,11 @@ const routes = [ // 路由配置数组
         name: 'Random', // 随机页面名称
         component: () => import('@/views/Random.vue'), // 随机页面组件
       },
-      {
-        path: '/question-bank', // 问题库页面路径
-        name: 'QuesitonBank', // 问题库页面名称
-        component: () => import('@/views/QuestionBank.vue'), // 问题库页面组件
-      },
+      // {
+      //   path: '/question-bank', // 问题库页面路径
+      //   name: 'QuesitonBank', // 问题库页面名称
+      //   component: () => import('@/views/QuestionBank.vue'), // 问题库页面组件
+      // },
       {
         path: '/addNote', // 添加笔记页面路径
         name: 'AddNote', // 添加笔记页面名称
