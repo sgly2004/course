@@ -49,8 +49,8 @@
         <a
           :href="
             locale === 'en'
-              ? 'https://github.com/codeacme17/examor/blob/main/docs/en-role.md'
-              : 'https://github.com/codeacme17/examor/blob/main/docs/zh-role.md'
+              ? 'https://github.com/sgly2004/notebook/blob/main/server/en-role.md'
+              : 'https://github.com/sgly2004/notebook/blob/main/server/zh-role.md'
           "
           target="_blank"
         >
