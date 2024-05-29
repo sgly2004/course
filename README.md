@@ -11,7 +11,12 @@
 
 ---
 
-# 快速开始
+# 快速开始（docker启动）
+
+在/notebook路径下，使用下面指令：`docker-compose up`
+
+
+# 单独启动
 
 ## 1. OpenAI账号注册
 

@@ -7,13 +7,13 @@
       class="mb-5 mt-0"
     >
       <t-radio-button value="short">
-        📝 {{ $t('button.short') }}
+         {{ $t('button.short') }}
       </t-radio-button>
       <t-radio-button value="choice">
-        🔠 {{ $t('button.choice') }}
+         {{ $t('button.choice') }}
       </t-radio-button>
       <t-radio-button value="blank">
-        ⬜ {{ $t('button.blank') }}
+         {{ $t('button.blank') }}
       </t-radio-button>
     </t-radio-group>
 
