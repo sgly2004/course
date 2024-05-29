@@ -4,7 +4,7 @@ import requests
 
 def check_llm_api_state():
     """Check the status of the LLM API and distinguish payment types."""
-    response = _request_llm("hi", 1)
+    response = _request_chat_openai("hi", 1)
     data = response.json()
     headers = response.headers
 
@@ -13,25 +13,6 @@ def check_llm_api_state():
         raise Exception(f"Error: {error_message}")
 
     return _differentiate_payment_types(headers)
-
-
-def _request_llm(
-    prompt: str,
-    max_token: int
-):
-    """Depending on the current model (OpenAI or Azure), send the request."""
-    current_model = os.getenv("CURRENT_MODEL")
-
-    if (current_model == "OpenAI"):
-        response = _request_chat_openai(prompt, max_token)
-    elif (current_model == "Azure"):
-        response = _request_chat_azure(prompt, max_token)
-    elif (current_model == "Anthropic"):
-        response = _request_chat_anthropic(prompt, max_token)
-    else:
-        raise ValueError("Unsupported model")
-
-    return response
 
 
 def _request_chat_openai(
@@ -66,59 +47,6 @@ def _request_chat_openai(
     )
 
 
-def _request_chat_azure(
-    prompt: str,
-    max_token: int
-):
-    """Make a request to the Azure API."""
-    key = os.getenv("AZURE_KEY")
-    base = os.getenv('AZURE_BASE')
-    deployment_name = os.getenv("AZURE_DEPLOYMENT_NAME")
-    version = os.getenv("AZURE_VERSION")
-    headers = {
-        "api-key": key,
-        "Content-Type": "application/json",
-    }
-    data = {
-        "prompt": prompt,
-        "max_tokens": max_token
-    }
-
-    return requests.post(
-        f"{base}/openai/deployments/{deployment_name}/completions?api-version={version}",
-        headers=headers,
-        json=data,
-        timeout=3000
-    )
-
-
-def _request_chat_anthropic(
-    prompt: str,
-    max_token: int
-):
-    """Make a request to the Anthropic API."""
-    key = os.getenv("ANTHROPIC_KEY")
-    version = os.getenv("ANTHROPIC_VERSION")
-    model = os.getenv("ANTHROPIC_MODEL")
-    headers = {
-        "x-api-key": key,
-        "Content-Type": "application/json",
-        "accept": "application/json",
-        "anthropic-version": version,
-    }
-    data = {
-        "prompt": prompt,
-        "max_tokens_to_sample": max_token,
-        "model": model
-    }
-    return requests.post(
-        "https://api.anthropic.com/v1/complete",
-        headers=headers,
-        json=data,
-        timeout=3000
-    )
-
-
 def _differentiate_payment_types(headers):
     """
     This function differentiates payment types based on rate limit requests.
@@ -137,13 +65,5 @@ def _differentiate_payment_types(headers):
             os.environ["PAYMENT"] = "free"
         else:
             os.environ["PAYMENT"] = "paid"
-
-    # Azure is always paid
-    if current_model == "Azure":
-        os.environ["PAYMENT"] = "paid"
-
-    # Anthropic is always free.
-    if current_model == "Anthropic":
-        os.environ["PAYMENT"] = "free"
 
     return os.environ["PAYMENT"]

@@ -9,8 +9,6 @@
 - Python版本：3.11
 - MySQL版本：3.8
 
-
-
 ---
 
 # 快速开始
@@ -55,6 +53,8 @@ pip install -r requirements.txt
 ```bash
 uvicorn main:app --reload --port 51717 --host 0.0.0.0
 ```
+
+⚠️注意：前端启动位置要在/app下，后端启动要在/server下，后端如果在其他位置启动，会报错关于ASGI相关问题。
 
 ## 5. 启动后的设置
 
