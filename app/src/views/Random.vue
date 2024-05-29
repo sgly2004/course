@@ -4,7 +4,7 @@
     <!-- 空白区块 -->
     <empty-block v-if="questionInfo === 'empty'" type="question"> <!-- 如果问题信息为空，显示空白区块 -->
       <!-- 标题 -->
-      <h3 style="margin-top: -50px">
+      <h3 style="margin-top: 20px">
         {{ $t('title.emptyQuestion') }} <!-- 使用国际化函数显示标题 -->
       </h3>
     </empty-block>
