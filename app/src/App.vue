@@ -60,7 +60,7 @@ watch(
       diff.map(async (item) => {
         const res = await FILE_API.getQuestionCount(item.id) // 获取上传文件相关的问题数量
         MessagePlugin.success( // 显示上传成功消息
-        `File ${item.file_name} was uploaded successfully and ${res.data} questions were generated.`,
+        `${item.file_name} 已经上传成功，并且生成了 ${res.data} 个问题。`,
           6000
         )
       })
