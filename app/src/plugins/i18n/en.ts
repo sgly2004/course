@@ -138,14 +138,12 @@ export const en = {
     switchLang:
       'Note that switching languages affects the language in which GPT generates questions and detects',
     OpenAIKeyError: 'Please configure the API key of OpenAI',
-    AzureKeyError: 'Please configure the configuration items required by Azure',
-    AnthropicError: 'Please configure the API key of Anthropic',
     timeout:
       'The current request has timed out, which could be due to a network issue. Please check your proxy settings or try debugging using an alternative method.',
     successImport: 'Import file succeeded',
     needUpdate:
       'It is detected that the project needs to be updated, please go to view the update guide',
     rateLimit:
-      'It is detected that you are currently using a free account, because the request limit for the free account will take a long time for this upload, please wait patiently',
+      'It is detected that you are currently using GPT3.5, will take a long time for this upload, please wait patiently',
   },
 }

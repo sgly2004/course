@@ -130,13 +130,11 @@ export const zhCN = {
     notionKeyEnd: '再进行上传',
     switchLang: '请注意，切换语言会影响 GPT 生成问题和检测的语言',
     OpenAIKeyError: '请配置 OpenAI 的 API key',
-    AzureKeyError: '请配置 Azure 所需的配置项',
-    AnthropicError: '请配置 Anthropic 的 API key',
     timeout:
       '本次请求超时，这有可能是网络问题，请检查您的代理或者以其他的方式进行调试',
     successImport: '导入文件成功',
     needUpdate: '检测到需要更新项目，请前往查看更新指南',
     rateLimit:
-      '检测到您目前使用的是免费账号，因为对免费账号的请求限制本次上传时间会较长，请耐心等待',
+      '检测到您目前使用的是GPT3.5，本次上传时间会较长，请耐心等待',
   },
 }
