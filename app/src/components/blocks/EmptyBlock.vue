@@ -7,13 +7,13 @@
     <div v-show="props.type === 'note'" style="width: 200px; height: 200px">
       <v-img
         v-show="isDark"
-        src="/src/assets/images/empty-dark.svg"
-        :lazy-src="'/src/assets/images/empty-dark.svg'"
+        src="/src/assets/images/note.svg"
+        :lazy-src="'/src/assets/images/note.svg'"
       />
       <v-img
         v-show="!isDark"
-        src="/src/assets/images/empty-light.svg"
-        :lazy-src="'/src/assets/images/empty-light.svg'"
+        src="/src/assets/images/note.svg"
+        :lazy-src="'/src/assets/images/note.svg'"
       />
     </div>
 
@@ -21,13 +21,13 @@
     <div v-show="props.type === 'question'" style="width: 200px; height: 200px">
       <v-img
         v-show="isDark"
-        src="/src/assets/images/empty-question-dark.svg"
-        :lazy-src="'/src/assets/images/empty-question-dark.svg'"
+        src="/src/assets/images/question.svg"
+        :lazy-src="'/src/assets/images/question.svg'"
       />
       <v-img
         v-show="!isDark"
-        src="/src/assets/images/empty-question-light.svg"
-        :lazy-src="'/src/assets/images/empty-question-light.svg'"
+        src="/src/assets/images/question.svg"
+        :lazy-src="'/src/assets/images/question.svg'"
       />
     </div>
 
